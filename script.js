@@ -2,9 +2,25 @@ const BACKEND_URL =
    https://script.google.com/macros/s/AKfycbyZpZD_1gjQxCo23BRMEuvE6TCD_ZVABH3qsYqlIq0DdSKCpEy-Ibu6rHNKOdakKhDfew/exec
 async function confirmApplication() {
 
-    user(
-        "Sí, confirmar solicitud"
+   let conversation = [];
+   
+
+    function user(text) {
+
+    conversation.push({
+
+        role: "user",
+
+        content: text
+
+    });
+
+    addMessage(
+        safe(text),
+        "user"
     );
+
+}
 
 
     currentStep =
@@ -15,6 +31,22 @@ async function confirmApplication() {
 
 
     bot(`
+    function bot(html) {
+
+    conversation.push({
+
+        role: "assistant",
+
+        content: html
+
+    });
+
+    addMessage(
+        html,
+        "bot"
+    );
+
+}
         <strong>
             Estoy registrando tu solicitud...
         </strong>
