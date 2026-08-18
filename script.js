@@ -177,6 +177,52 @@ async function confirmApplication() {
 
 
         showOptions([
+           function contactHuman() {
+
+    clearOptions();
+
+    const whatsapp =
+        "https://wa.me/526641601608";
+
+    bot(`
+        Claro.
+
+        <br><br>
+
+        Para atención personalizada puedes contactar
+        directamente a:
+
+        <br><br>
+
+        <strong>
+        Sergio Estrada
+        </strong>
+
+        <br>
+
+        Asesor Ejecutivo Comercial PABS
+
+        <br><br>
+
+        <a
+            href="${whatsapp}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="
+              display:inline-block;
+              background:#111;
+              color:white;
+              padding:12px 16px;
+              border-radius:7px;
+              text-decoration:none;
+              font-weight:700;
+            "
+        >
+            CONTACTAR POR WHATSAPP →
+        </a>
+    `);
+
+}
 
             [
                 "Contactar asesor",
