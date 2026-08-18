@@ -1,0 +1,94 @@
+```css
+/* =========================
+   MENSAJES DEL USUARIO
+========================= */
+
+.user-message {
+
+    max-width: 85%;
+
+    margin-top: 12px;
+    margin-left: auto;
+
+    padding: 12px 15px;
+
+    background: #111;
+
+    color: #fff;
+
+    border-radius:
+        12px 12px 2px 12px;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================
+   OPCIONES DEL ASISTENTE
+========================= */
+
+.assistant-options {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+}
+
+
+.assistant-options button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    background: #fff;
+
+    color: #222;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-weight: 700;
+
+    transition: .2s;
+
+}
+
+
+.assistant-options button:hover {
+
+    background: #111;
+
+    color: #fff;
+
+    border-color: #111;
+
+}
+
+
+/* =========================
+   ENLACES DEL ASISTENTE
+========================= */
+
+.bot-message a {
+
+    color: inherit;
+
+    font-weight: 800;
+
+    text-decoration: underline;
+
+}
+```
