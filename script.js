@@ -1,331 +1,316 @@
-```javascript
 /* =========================================================
-   PABS — MOTOR CONVERSACIONAL DE AFILIACIÓN
-   ========================================================= */
+   PABS — ASISTENTE DE AFILIACIÓN
+========================================================= */
 
 
-/* =========================
-   ESTADO DEL PROSPECTO
-========================= */
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
 
-const prospect = {
+const CONFIG = {
 
-    nombreCompleto: "",
-    fechaNacimiento: "",
-    lugarNacimiento: "",
-    telefono: "",
-    inversionInicial: "",
-    frecuencia: "",
-    aportacion: ""
+    whatsapp:
+        "526641601608",
+
+    email:
+        "pabsindustrialtecate@gmail.com",
+
+    contributions: {
+
+        semanal: 150,
+
+        quincenal: 300,
+
+        mensual: 600
+
+    }
 
 };
 
 
-/* =========================
-   ESTADO DEL ASISTENTE
-========================= */
+/* =========================================================
+   EXPEDIENTE
+========================================================= */
 
-let currentStep = "inicio";
+const application = {
 
-let assistantStarted = false;
+    nombreCompleto: null,
+
+    fechaNacimiento: null,
+
+    lugarNacimiento: null,
+
+    telefono: null,
+
+    inversionInicial: null,
+
+    frecuencia: null,
+
+    aportacion: null,
+
+    createdAt: null,
+
+    folio: null
+
+};
 
 
-/* =========================
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let currentStep = "idle";
+
+let assistantOpen = false;
+
+
+/* =========================================================
    ELEMENTOS
-========================= */
+========================================================= */
 
 const assistant =
-    document.getElementById("assistant");
+    document.getElementById("aiAssistant");
 
-const chat =
-    document.getElementById("chat");
+const messages =
+    document.getElementById("aiMessages");
+
+const options =
+    document.getElementById("aiOptions");
 
 const input =
-    document.getElementById("userMessage");
+    document.getElementById("aiInput");
 
 
-/* =========================
-   ABRIR ASISTENTE
-========================= */
+/* =========================================================
+   ABRIR
+========================================================= */
 
-function openAssistant() {
+function openAssistant(mode = "affiliate") {
 
     assistant.classList.add("active");
 
-    if (!assistantStarted) {
+    assistantOpen = true;
 
-        assistantStarted = true;
+    input.focus();
 
-        showWelcome();
+    if (!messages.children.length) {
+
+        welcome();
+
+    }
+
+    if (mode === "affiliate") {
+
+        setTimeout(() => {
+
+            startAffiliate();
+
+        }, 300);
+
+    }
+
+    if (mode === "information") {
+
+        setTimeout(() => {
+
+            information();
+
+        }, 300);
+
+    }
+
+    if (mode === "question") {
+
+        setTimeout(() => {
+
+            askQuestion();
+
+        }, 300);
 
     }
 
 }
 
 
-/* =========================
+/* =========================================================
    CERRAR
-========================= */
+========================================================= */
 
 function closeAssistant() {
 
     assistant.classList.remove("active");
 
+    assistantOpen = false;
+
 }
 
 
-/* =========================
+/* =========================================================
    BIENVENIDA
-========================= */
+========================================================= */
 
-function showWelcome() {
+function welcome() {
 
-    addBotMessage(`
+    bot(`
         <strong>Hola, soy tu Asesor Virtual PABS.</strong>
         <br><br>
         Estoy aquí para orientarte, resolver tus dudas
-        y acompañarte durante tu proceso de afiliación.
+        y acompañarte durante tu proceso.
         <br><br>
-        Podemos comenzar ahora mismo.
+        Puedes preguntarme lo que necesites.
     `);
 
-    setTimeout(() => {
+    showOptions([
 
-        addBotMessage(`
-            ¿Qué deseas hacer?
-        `);
+        ["Quiero afiliarme", "affiliate"],
 
-        showOptions([
+        ["Quiero conocer PABS", "information"],
 
-            {
-                text: "Quiero afiliarme",
-                action: "startAffiliation"
-            },
+        ["Tengo una duda", "question"],
 
-            {
-                text: "Quiero conocer PABS",
-                action: "information"
-            },
+        ["Quiero hablar con un asesor", "human"]
 
-            {
-                text: "Tengo una duda",
-                action: "question"
-            },
-
-            {
-                text: "Quiero hablar con un asesor",
-                action: "human"
-            }
-
-        ]);
-
-    }, 500);
+    ]);
 
 }
 
 
-/* =========================
-   INICIAR AFILIACIÓN
-========================= */
+/* =========================================================
+   INICIO AFILIACIÓN
+========================================================= */
 
-function startAffiliation() {
-
-    openAssistant();
+function startAffiliate() {
 
     currentStep =
         "nombreCompleto";
 
-    addUserMessage(
-        "Quiero iniciar mi afiliación"
-    );
+    clearOptions();
 
-    setTimeout(() => {
-
-        addBotMessage(`
-            Excelente decisión.
-            Te acompañaré paso a paso.
-            <br><br>
-            Para comenzar:
-            <br><br>
-            <strong>¿Cuál es tu nombre completo?</strong>
-        `);
-
-    }, 500);
+    bot(`
+        Perfecto. Vamos a comenzar tu proceso
+        de afiliación.
+        <br><br>
+        Te iré solicitando la información
+        paso a paso.
+        <br><br>
+        <strong>¿Cuál es tu nombre completo?</strong>
+    `);
 
 }
 
 
-/* =========================
-   OPCIONES
-========================= */
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
 
-function showOptions(options) {
+function information() {
 
-    const container =
-        document.createElement("div");
+    clearOptions();
 
-    container.className =
-        "assistant-options";
+    bot(`
+        PABS es un Programa de Apoyo y Beneficio Social
+        orientado a la previsión y protección familiar.
+        <br><br>
+        Puedo explicarte los beneficios, las aportaciones,
+        el proceso de afiliación o resolver una pregunta
+        específica.
+    `);
 
-    options.forEach(option => {
+    showOptions([
 
-        const button =
-            document.createElement("button");
+        ["Iniciar afiliación", "affiliate"],
 
-        button.textContent =
-            option.text;
+        ["Ver aportaciones", "contributions"],
 
-        button.onclick = () => {
+        ["Tengo otra pregunta", "question"]
 
-            handleOption(option.action);
-
-        };
-
-        container.appendChild(button);
-
-    });
-
-    chat.appendChild(container);
-
-    chat.scrollTop =
-        chat.scrollHeight;
+    ]);
 
 }
 
 
-/* =========================
-   MANEJAR OPCIONES
-========================= */
+/* =========================================================
+   PREGUNTA
+========================================================= */
 
-function handleOption(action) {
+function askQuestion() {
 
-    if (action === "startAffiliation") {
+    currentStep =
+        "freeQuestion";
 
-        startAffiliation();
+    clearOptions();
 
-        return;
-
-    }
-
-
-    if (action === "information") {
-
-        addUserMessage(
-            "Quiero conocer PABS"
-        );
-
-        setTimeout(() => {
-
-            addBotMessage(`
-                PABS es un programa de apoyo de beneficio
-                social orientado a la previsión y protección.
-                <br><br>
-                Puedo explicarte el proceso, las aportaciones
-                y ayudarte a iniciar tu solicitud.
-            `);
-
-        }, 500);
-
-        return;
-
-    }
-
-
-    if (action === "question") {
-
-        addUserMessage(
-            "Tengo una duda"
-        );
-
-        currentStep =
-            "pregunta";
-
-        setTimeout(() => {
-
-            addBotMessage(`
-                Claro. Escríbeme tu pregunta y trataré
-                de orientarte.
-                <br><br>
-                Si necesitas atención de un asesor humano,
-                también puedo ayudarte a contactarlo.
-            `);
-
-        }, 500);
-
-        return;
-
-    }
-
-
-    if (action === "human") {
-
-        contactHuman();
-
-    }
+    bot(`
+        Claro. Escríbeme tu pregunta.
+        <br><br>
+        Intentaré orientarte con la información
+        disponible.
+    `);
 
 }
 
 
-/* =========================
-   PROCESAR MENSAJE
-========================= */
+/* =========================================================
+   ENVIAR MENSAJE
+========================================================= */
 
-function sendMessage() {
+function sendAIMessage() {
 
-    const message =
+    const value =
         input.value.trim();
 
-    if (!message) {
+    if (!value) return;
 
-        return;
-
-    }
-
-    addUserMessage(message);
+    user(value);
 
     input.value = "";
 
-    processMessage(message);
+    processMessage(value);
 
 }
 
 
-/* =========================
+/* =========================================================
    ENTER
-========================= */
+========================================================= */
 
-function handleEnter(event) {
+input.addEventListener(
+    "keydown",
+    event => {
 
-    if (event.key === "Enter") {
+        if (event.key === "Enter") {
 
-        sendMessage();
+            sendAIMessage();
+
+        }
 
     }
+);
 
-}
 
-
-/* =========================
+/* =========================================================
    MOTOR DE CAPTURA
-========================= */
+========================================================= */
 
-function processMessage(message) {
+function processMessage(value) {
 
     switch (currentStep) {
 
 
         case "nombreCompleto":
 
-            prospect.nombreCompleto =
-                message;
+            application.nombreCompleto =
+                value;
 
             currentStep =
                 "fechaNacimiento";
 
-            botAsk(`
-                Gracias, ${escapeHTML(message)}.
+            bot(`
+                Gracias, ${safe(value)}.
                 <br><br>
-                Ahora necesito tu <strong>fecha de nacimiento</strong>.
+                ¿Cuál es tu <strong>fecha de nacimiento</strong>?
+                <br><br>
+                Ejemplo: 30/06/1985
             `);
 
             break;
@@ -333,12 +318,12 @@ function processMessage(message) {
 
         case "fechaNacimiento":
 
-            if (!validateDate(message)) {
+            if (!validDate(value)) {
 
-                botAsk(`
+                bot(`
                     Necesito una fecha válida.
                     <br><br>
-                    Por favor utiliza el formato:
+                    Utiliza el formato:
                     <strong>DD/MM/AAAA</strong>
                 `);
 
@@ -346,14 +331,14 @@ function processMessage(message) {
 
             }
 
-            prospect.fechaNacimiento =
-                message;
+            application.fechaNacimiento =
+                value;
 
             currentStep =
                 "lugarNacimiento";
 
-            botAsk(`
-                Gracias.
+            bot(`
+                Perfecto.
                 <br><br>
                 ¿Cuál es tu <strong>lugar de nacimiento</strong>?
             `);
@@ -363,17 +348,19 @@ function processMessage(message) {
 
         case "lugarNacimiento":
 
-            prospect.lugarNacimiento =
-                message;
+            application.lugarNacimiento =
+                value;
 
             currentStep =
                 "telefono";
 
-            botAsk(`
-                Perfecto.
+            bot(`
+                Gracias.
                 <br><br>
                 Ahora necesito tu número de
                 <strong>WhatsApp o teléfono de contacto</strong>.
+                <br><br>
+                Escríbelo con 10 dígitos.
             `);
 
             break;
@@ -381,31 +368,34 @@ function processMessage(message) {
 
         case "telefono":
 
-            if (!validatePhone(message)) {
+            const phone =
+                value.replace(/\D/g, "");
 
-                botAsk(`
-                    Parece que el número no está completo.
+            if (phone.length !== 10) {
+
+                bot(`
+                    El número debe contener 10 dígitos.
                     <br><br>
-                    Escríbelo con 10 dígitos.
+                    Inténtalo nuevamente.
                 `);
 
                 return;
 
             }
 
-            prospect.telefono =
-                message.replace(/\D/g, "");
+            application.telefono =
+                phone;
 
             currentStep =
                 "inversionInicial";
 
-            botAsk(`
-                Gracias.
+            bot(`
+                Perfecto.
                 <br><br>
                 ¿Qué cantidad deseas considerar como
                 <strong>inversión inicial</strong>?
                 <br><br>
-                Puedes escribir solamente la cantidad.
+                Ejemplo: 1000
             `);
 
             break;
@@ -413,367 +403,344 @@ function processMessage(message) {
 
         case "inversionInicial":
 
-            const investment =
-                parseCurrency(message);
+            const amount =
+                Number(
+                    value
+                        .replace(/[$,\s]/g, "")
+                        .replace(/[^\d.]/g, "")
+                );
 
-            if (!investment || investment <= 0) {
+            if (!amount || amount <= 0) {
 
-                botAsk(`
-                    Por favor indícame una cantidad válida
-                    para tu inversión inicial.
+                bot(`
+                    Por favor proporciona una cantidad
+                    válida.
                     <br><br>
-                    Ejemplo:
-                    <strong>1000</strong>
+                    Ejemplo: <strong>1000</strong>
                 `);
 
                 return;
 
             }
 
-            prospect.inversionInicial =
-                investment;
+            application.inversionInicial =
+                amount;
 
             currentStep =
                 "frecuencia";
 
-            botAsk(`
-                Perfecto.
+            bot(`
+                Excelente.
                 <br><br>
-                ¿Cómo deseas realizar tus aportaciones?
+                Ahora selecciona la frecuencia de
+                aportación que deseas considerar.
             `);
 
             showOptions([
 
-                {
-                    text: "Semanal — $150",
-                    action: "weekly"
-                },
+                ["Semanal — $150", "weekly"],
 
-                {
-                    text: "Quincenal — $300",
-                    action: "biweekly"
-                },
+                ["Quincenal — $300", "biweekly"],
 
-                {
-                    text: "Mensual — $600",
-                    action: "monthly"
-                }
+                ["Mensual — $600", "monthly"]
 
             ]);
 
             break;
 
 
-        case "pregunta":
+        case "freeQuestion":
 
-            answerBasicQuestion(message);
+            answerQuestion(value);
 
             break;
 
 
         default:
 
-            botAsk(`
-                Puedo ayudarte a iniciar tu afiliación.
-                <br><br>
-                Selecciona <strong>Quiero afiliarme</strong>
-                para comenzar.
-            `);
+            answerQuestion(value);
 
     }
 
 }
 
 
-/* =========================
-   FRECUENCIA
-========================= */
+/* =========================================================
+   FRECUENCIAS
+========================================================= */
 
-function selectFrequency(frequency, amount) {
+function selectFrequency(type) {
 
-    prospect.frecuencia =
-        frequency;
+    const map = {
 
-    prospect.aportacion =
-        amount;
-
-    addUserMessage(
-        frequency + " — $" + amount
-    );
-
-    currentStep =
-        "confirmacion";
-
-    setTimeout(() => {
-
-        showSummary();
-
-    }, 500);
-
-}
-
-
-/* =========================
-   ACCIONES DE FRECUENCIA
-========================= */
-
-function handleFrequencyAction(action) {
-
-    if (action === "weekly") {
-
-        selectFrequency(
+        weekly: [
             "Semanal",
             150
-        );
+        ],
 
-    }
-
-
-    if (action === "biweekly") {
-
-        selectFrequency(
+        biweekly: [
             "Quincenal",
             300
-        );
+        ],
 
-    }
-
-
-    if (action === "monthly") {
-
-        selectFrequency(
+        monthly: [
             "Mensual",
             600
-        );
+        ]
 
-    }
-
-}
+    };
 
 
-/* =========================
-   MODIFICAR OPCIONES
-========================= */
+    const selected =
+        map[type];
 
-function handleOption(action) {
-
-    if (action === "startAffiliation") {
-
-        startAffiliation();
-
-        return;
-
-    }
+    if (!selected) return;
 
 
-    if (action === "information") {
+    application.frecuencia =
+        selected[0];
 
-        addUserMessage(
-            "Quiero conocer PABS"
-        );
-
-        botAsk(`
-            PABS es un programa de apoyo de beneficio
-            social enfocado en previsión y protección.
-            <br><br>
-            Si quieres, puedo ayudarte a iniciar
-            tu proceso de afiliación.
-        `);
-
-        return;
-
-    }
+    application.aportacion =
+        selected[1];
 
 
-    if (action === "question") {
-
-        addUserMessage(
-            "Tengo una duda"
-        );
-
-        currentStep =
-            "pregunta";
-
-        botAsk(`
-            Adelante. Escríbeme tu pregunta.
-        `);
-
-        return;
-
-    }
+    user(
+        `${selected[0]} — $${selected[1]} MXN`
+    );
 
 
-    if (action === "human") {
-
-        contactHuman();
-
-        return;
-
-    }
+    currentStep =
+        "confirmation";
 
 
-    if (
-        action === "weekly" ||
-        action === "biweekly" ||
-        action === "monthly"
-    ) {
-
-        handleFrequencyAction(action);
-
-    }
+    setTimeout(
+        showApplicationSummary,
+        400
+    );
 
 }
 
 
-/* =========================
+/* =========================================================
    RESUMEN
-========================= */
+========================================================= */
 
-function showSummary() {
+function showApplicationSummary() {
 
-    const summary = `
+    clearOptions();
 
-        <strong>Revisa tu información</strong>
+    bot(`
 
-        <br><br>
-
-        <strong>Nombre:</strong><br>
-        ${escapeHTML(prospect.nombreCompleto)}
-
-        <br><br>
-
-        <strong>Fecha de nacimiento:</strong><br>
-        ${escapeHTML(prospect.fechaNacimiento)}
+        <strong>
+            Revisa tu información
+        </strong>
 
         <br><br>
 
-        <strong>Lugar de nacimiento:</strong><br>
-        ${escapeHTML(prospect.lugarNacimiento)}
+        <div class="summary">
 
-        <br><br>
+            <span>
+                Nombre
+            </span>
 
-        <strong>WhatsApp:</strong><br>
-        ${escapeHTML(prospect.telefono)}
+            <strong>
+                ${safe(application.nombreCompleto)}
+            </strong>
 
-        <br><br>
+            <span>
+                Fecha de nacimiento
+            </span>
 
-        <strong>Inversión inicial:</strong><br>
-        $${formatMoney(prospect.inversionInicial)} MXN
+            <strong>
+                ${safe(application.fechaNacimiento)}
+            </strong>
 
-        <br><br>
+            <span>
+                Lugar de nacimiento
+            </span>
 
-        <strong>Frecuencia:</strong><br>
-        ${escapeHTML(prospect.frecuencia)}
+            <strong>
+                ${safe(application.lugarNacimiento)}
+            </strong>
 
-        <br><br>
+            <span>
+                WhatsApp
+            </span>
 
-        <strong>Aportación:</strong><br>
-        $${formatMoney(prospect.aportacion)} MXN
+            <strong>
+                ${safe(application.telefono)}
+            </strong>
 
-        <br><br>
+            <span>
+                Inversión inicial
+            </span>
+
+            <strong>
+                $${money(application.inversionInicial)} MXN
+            </strong>
+
+            <span>
+                Frecuencia
+            </span>
+
+            <strong>
+                ${safe(application.frecuencia)}
+            </strong>
+
+            <span>
+                Aportación
+            </span>
+
+            <strong>
+                $${money(application.aportacion)} MXN
+            </strong>
+
+        </div>
+
+        <br>
 
         ¿La información es correcta?
 
-    `;
+    `);
 
-    botAsk(summary);
 
     showOptions([
 
-        {
-            text: "Sí, confirmar solicitud",
-            action: "confirm"
-        },
+        ["Sí, confirmar solicitud", "confirm"],
 
-        {
-            text: "Quiero modificar un dato",
-            action: "edit"
-        }
+        ["Quiero modificar información", "edit"]
 
     ]);
 
 }
 
 
-/* =========================
-   CONFIRMACIÓN
-========================= */
+/* =========================================================
+   CONFIRMAR
+========================================================= */
 
-function confirmAffiliation() {
+function confirmApplication() {
+
+    application.createdAt =
+        new Date().toISOString();
+
+    application.folio =
+        createFolio();
+
+
+    user(
+        "Sí, confirmar solicitud"
+    );
+
 
     currentStep =
         "completed";
 
-    addUserMessage(
-        "Sí, confirmar solicitud"
-    );
+
+    clearOptions();
+
 
     setTimeout(() => {
 
-        botAsk(`
-            <strong>Solicitud registrada.</strong>
+        bot(`
+            <strong>
+                Solicitud preparada correctamente.
+            </strong>
+
             <br><br>
-            Tu información está preparada para continuar
-            con el proceso correspondiente.
+
+            Tu folio de solicitud es:
+
+            <br>
+
+            <strong>
+                ${application.folio}
+            </strong>
+
             <br><br>
-            En la siguiente etapa conectaremos este registro
-            con Google Sheets y Google Drive para generar
-            el respaldo de la solicitud.
+
+            Tus datos están listos para enviarse
+            al sistema de registro.
+
+            <br><br>
+
+            En la siguiente etapa conectaremos este
+            proceso con Google Sheets y Google Drive.
+
         `);
 
-    }, 700);
+
+        showOptions([
+
+            ["Contactar asesor por WhatsApp", "human"],
+
+            ["Finalizar", "close"]
+
+        ]);
+
+
+    }, 500);
 
 }
 
 
-/* =========================
+/* =========================================================
    MODIFICAR
-========================= */
+========================================================= */
 
-function editAffiliation() {
+function editApplication() {
 
-    addUserMessage(
-        "Quiero modificar un dato"
+    user(
+        "Quiero modificar información"
     );
 
-    currentStep =
-        "nombreCompleto";
+    resetApplication();
 
-    botAsk(`
-        Claro. Podemos corregir la información.
-        <br><br>
-        Vamos a comenzar nuevamente.
-        <br><br>
-        <strong>¿Cuál es tu nombre completo?</strong>
-    `);
+    startAffiliate();
 
 }
 
 
-/* =========================
-   PREGUNTAS BÁSICAS
-========================= */
+/* =========================================================
+   PREGUNTAS
+========================================================= */
 
-function answerBasicQuestion(message) {
+function answerQuestion(value) {
 
     const text =
-        message.toLowerCase();
+        value.toLowerCase();
 
 
     if (
         text.includes("aport") ||
         text.includes("pago") ||
-        text.includes("seman")
+        text.includes("cuanto") ||
+        text.includes("cuánto")
     ) {
 
-        botAsk(`
+        bot(`
             Las aportaciones configuradas actualmente
             para este proceso son:
             <br><br>
-            <strong>Semanal:</strong> $150 MXN<br>
-            <strong>Quincenal:</strong> $300 MXN<br>
+
+            <strong>Semanal:</strong> $150 MXN
+            <br>
+
+            <strong>Quincenal:</strong> $300 MXN
+            <br>
+
             <strong>Mensual:</strong> $600 MXN
+
+            <br><br>
+
+            Si quieres, puedo ayudarte a iniciar
+            tu afiliación.
         `);
+
+        showOptions([
+            ["Iniciar afiliación", "affiliate"],
+            ["Tengo otra pregunta", "question"]
+        ]);
 
         return;
 
@@ -783,166 +750,259 @@ function answerBasicQuestion(message) {
     if (
         text.includes("afili") ||
         text.includes("inscrib") ||
-        text.includes("contrat")
+        text.includes("registro")
     ) {
 
-        botAsk(`
-            Puedo acompañarte para iniciar tu solicitud
-            de afiliación paso a paso.
-            <br><br>
-            Si deseas comenzar, selecciona:
-            <strong>Quiero afiliarme</strong>.
+        bot(`
+            Puedo acompañarte durante el proceso
+            de afiliación y solicitar tus datos
+            paso a paso.
         `);
+
+        showOptions([
+            ["Iniciar afiliación", "affiliate"]
+        ]);
 
         return;
 
     }
 
 
-    botAsk(`
-        Quiero ayudarte con precisión.
-        Esta pregunta será incorporada posteriormente
-        a nuestra base de conocimiento para que el
-        asistente pueda responderla de forma más completa.
+    if (
+        text.includes("asesor") ||
+        text.includes("persona") ||
+        text.includes("humano")
+    ) {
+
+        contactHuman();
+
+        return;
+
+    }
+
+
+    /*
+       AQUÍ CONECTAREMOS EL MODELO DE IA REAL.
+    */
+
+    bot(`
+        Entiendo tu pregunta.
         <br><br>
-        Si necesitas atención personalizada ahora,
-        puedo comunicarte con el asesor humano.
+        Esta conversación será procesada posteriormente
+        por nuestro modelo de IA conectado a la base
+        de conocimiento PABS.
+        <br><br>
+        Si prefieres atención humana, puedo comunicarte
+        con un asesor.
     `);
+
+    showOptions([
+        ["Hablar con asesor", "human"],
+        ["Iniciar afiliación", "affiliate"]
+    ]);
 
 }
 
 
-/* =========================
-   CONTACTO HUMANO
-========================= */
+/* =========================================================
+   ASESOR HUMANO
+========================================================= */
 
 function contactHuman() {
 
-    addUserMessage(
-        "Quiero hablar con un asesor"
-    );
+    clearOptions();
 
-    botAsk(`
+    bot(`
         Claro.
         <br><br>
-        Puedes contactar directamente a
-        <strong>Sergio Estrada</strong>,
-        Asesor Ejecutivo Comercial PABS.
+
+        Puedes continuar directamente con:
+
         <br><br>
+
+        <strong>
+            Sergio Estrada
+        </strong>
+
+        <br>
+
+        Asesor Ejecutivo Comercial PABS.
+
+        <br><br>
+
         <a
-            href="https://wa.me/526641601608"
+            href="https://wa.me/${CONFIG.whatsapp}"
             target="_blank">
-            👉 CONTACTAR POR WHATSAPP
+
+            CONTACTAR POR WHATSAPP →
+
         </a>
     `);
 
 }
 
 
-/* =========================
-   UTILIDADES
-========================= */
+/* =========================================================
+   OPCIONES
+========================================================= */
 
-function botAsk(message) {
+function showOptions(list) {
 
-    setTimeout(() => {
+    clearOptions();
 
-        addBotMessage(message);
+    list.forEach(
+        ([label, action]) => {
 
-    }, 400);
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "ai-option";
+
+            button.textContent =
+                label;
+
+            button.onclick = () => {
+
+                handleAction(action);
+
+            };
+
+            options.appendChild(button);
+
+        }
+    );
 
 }
 
 
-function addBotMessage(message) {
+function handleAction(action) {
+
+    switch (action) {
+
+        case "affiliate":
+            startAffiliate();
+            break;
+
+        case "information":
+            information();
+            break;
+
+        case "question":
+            askQuestion();
+            break;
+
+        case "human":
+            contactHuman();
+            break;
+
+        case "weekly":
+            selectFrequency("weekly");
+            break;
+
+        case "biweekly":
+            selectFrequency("biweekly");
+            break;
+
+        case "monthly":
+            selectFrequency("monthly");
+            break;
+
+        case "confirm":
+            confirmApplication();
+            break;
+
+        case "edit":
+            editApplication();
+            break;
+
+        case "contributions":
+            answerQuestion("aportaciones");
+            break;
+
+        case "close":
+            closeAssistant();
+            break;
+
+    }
+
+}
+
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+function bot(html) {
+
+    addMessage(
+        html,
+        "bot"
+    );
+
+}
+
+
+function user(text) {
+
+    addMessage(
+        safe(text),
+        "user"
+    );
+
+}
+
+
+function addMessage(content, type) {
 
     const div =
         document.createElement("div");
 
     div.className =
-        "bot-message";
-
-    div.style.marginTop =
-        "12px";
+        `ai-message ${type}`;
 
     div.innerHTML =
-        message;
+        content;
 
-    chat.appendChild(div);
+    messages.appendChild(div);
 
-    chat.scrollTop =
-        chat.scrollHeight;
-
-}
-
-
-function addUserMessage(message) {
-
-    const div =
-        document.createElement("div");
-
-    div.className =
-        "user-message";
-
-    div.textContent =
-        message;
-
-    chat.appendChild(div);
-
-    chat.scrollTop =
-        chat.scrollHeight;
+    messages.scrollTop =
+        messages.scrollHeight;
 
 }
 
 
-function validatePhone(phone) {
+function clearOptions() {
 
-    const digits =
-        phone.replace(/\D/g, "");
-
-    return digits.length === 10;
+    options.innerHTML =
+        "";
 
 }
 
 
-function validateDate(date) {
+/* =========================================================
+   UTILIDADES
+========================================================= */
 
-    return /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(date);
+function validDate(value) {
 
-}
-
-
-function parseCurrency(value) {
-
-    const cleaned =
-        value
-        .replace(/[$,\s]/g, "")
-        .replace(/[^\d.]/g, "");
-
-    const number =
-        Number(cleaned);
-
-    return Number.isFinite(number)
-        ? number
-        : null;
+    return /^\d{1,2}\/\d{1,2}\/\d{4}$/
+        .test(value);
 
 }
 
 
-function formatMoney(value) {
+function money(value) {
 
     return Number(value)
         .toLocaleString(
-            "es-MX",
-            {
-                minimumFractionDigits: 0
-            }
+            "es-MX"
         );
 
 }
 
 
-function escapeHTML(value) {
+function safe(value) {
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -954,76 +1014,74 @@ function escapeHTML(value) {
 }
 
 
-/* =========================
-   BOTONES DE FRECUENCIA
-========================= */
+function createFolio() {
+
+    const now =
+        new Date();
+
+    const date =
+        now.getFullYear() +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
+        String(
+            now.getDate()
+        ).padStart(2, "0");
+
+
+    const random =
+        Math.floor(
+            1000 +
+            Math.random() * 9000
+        );
+
+
+    return `PABS-TKT-${date}-${random}`;
+
+}
+
+
+function resetApplication() {
+
+    Object.keys(application)
+        .forEach(
+            key => {
+                application[key] = null;
+            }
+        );
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleMobileMenu() {
+
+    document
+        .querySelector(".navbar nav")
+        .classList.toggle("mobile-open");
+
+}
+
+
+/* =========================================================
+   ESC PARA CERRAR
+========================================================= */
 
 document.addEventListener(
-    "click",
-    function(event) {
+    "keydown",
+    event => {
 
-        const button =
-            event.target.closest(
-                ".assistant-options button"
-            );
-
-        if (!button) {
-
-            return;
-
-        }
-
-        const text =
-            button.textContent
-                .toLowerCase();
-
-        if (text.includes("semanal")) {
-
-            selectFrequency(
-                "Semanal",
-                150
-            );
-
-        }
-
-        else if (
-            text.includes("quincenal")
+        if (
+            event.key === "Escape" &&
+            assistantOpen
         ) {
 
-            selectFrequency(
-                "Quincenal",
-                300
-            );
-
-        }
-
-        else if (
-            text.includes("mensual")
-        ) {
-
-            selectFrequency(
-                "Mensual",
-                600
-            );
-
-        }
-
-        else if (
-            text.includes("confirmar")
-        ) {
-
-            confirmAffiliation();
-
-        }
-
-        else if (
-            text.includes("modificar")
-        ) {
-
-            editAffiliation();
+            closeAssistant();
 
         }
 
     }
 );
-```
