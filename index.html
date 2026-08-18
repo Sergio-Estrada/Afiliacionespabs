@@ -1,0 +1,366 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PABS | Afiliación y Protección Familiar</title>
+
+    <meta
+        name="description"
+        content="Inicia tu proceso de afiliación PABS con orientación personalizada."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+        <div class="brand-logo">PABS</div>
+
+        <div class="brand-text">
+            Programa de Apoyo de Beneficio Social
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <a href="#inicio">Inicio</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="#preguntas">Preguntas</a>
+    </nav>
+
+    <button class="header-button" onclick="startAffiliation()">
+        AFÍLIATE
+    </button>
+
+</header>
+
+
+<section id="inicio" class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <span class="hero-label">
+            PROTECCIÓN Y PREVISIÓN
+        </span>
+
+        <h1>
+            Tu tranquilidad
+            <br>
+            <strong>comienza hoy.</strong>
+        </h1>
+
+        <p>
+            Recibe orientación personalizada y comienza
+            tu proceso de afiliación PABS directamente
+            desde esta página.
+        </p>
+
+        <div class="hero-actions">
+
+            <button
+                class="primary-button"
+                onclick="startAffiliation()">
+                QUIERO AFILIARME
+            </button>
+
+            <button
+                class="secondary-button"
+                onclick="openAssistant()">
+                HABLAR CON EL ASESOR VIRTUAL
+            </button>
+
+        </div>
+
+        <div class="hero-note">
+            ✓ Orientación personalizada
+            &nbsp;&nbsp;
+            ✓ Proceso paso a paso
+            &nbsp;&nbsp;
+            ✓ Atención por WhatsApp
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="beneficios" class="benefits-section">
+
+    <div class="section-heading">
+
+        <span>CONOCE MÁS</span>
+
+        <h2>Protege lo que más valoras.</h2>
+
+        <p>
+            Conoce las alternativas disponibles y recibe
+            orientación antes de iniciar tu afiliación.
+        </p>
+
+    </div>
+
+    <div class="benefits-grid">
+
+        <article class="benefit-card">
+            <div class="benefit-icon">✓</div>
+
+            <h3>Protección</h3>
+
+            <p>
+                Anticipa decisiones importantes y brinda
+                mayor tranquilidad a tu familia.
+            </p>
+        </article>
+
+        <article class="benefit-card">
+            <div class="benefit-icon">◆</div>
+
+            <h3>Previsión</h3>
+
+            <p>
+                Conoce alternativas de aportación
+                de acuerdo con tus posibilidades.
+            </p>
+        </article>
+
+        <article class="benefit-card">
+            <div class="benefit-icon">★</div>
+
+            <h3>Orientación</h3>
+
+            <p>
+                Nuestro asistente virtual puede ayudarte
+                a resolver tus dudas durante el proceso.
+            </p>
+        </article>
+
+    </div>
+
+</section>
+
+
+<section id="como-funciona" class="process-section">
+
+    <div class="section-heading">
+
+        <span>PROCESO DE AFILIACIÓN</span>
+
+        <h2>Te acompañamos paso a paso.</h2>
+
+    </div>
+
+    <div class="process-grid">
+
+        <div class="process-step">
+            <div class="step-number">01</div>
+
+            <h3>Conoce</h3>
+
+            <p>
+                Pregunta al asistente virtual cualquier
+                duda que tengas.
+            </p>
+        </div>
+
+        <div class="process-step">
+            <div class="step-number">02</div>
+
+            <h3>Registra</h3>
+
+            <p>
+                Proporciona los datos necesarios
+                para iniciar tu solicitud.
+            </p>
+        </div>
+
+        <div class="process-step">
+            <div class="step-number">03</div>
+
+            <h3>Confirma</h3>
+
+            <p>
+                Revisa tu información y confirma
+                antes de enviarla.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta-section">
+
+    <div>
+
+        <span>DA EL PRIMER PASO</span>
+
+        <h2>Comienza tu proceso de afiliación.</h2>
+
+        <p>
+            Nuestro asesor virtual te acompañará durante
+            el proceso y resolverá tus dudas.
+        </p>
+
+        <button
+            class="primary-button"
+            onclick="startAffiliation()">
+            INICIAR AFILIACIÓN
+        </button>
+
+    </div>
+
+</section>
+
+
+<section id="preguntas" class="faq-section">
+
+    <div class="section-heading">
+
+        <span>INFORMACIÓN</span>
+
+        <h2>Preguntas frecuentes</h2>
+
+    </div>
+
+    <div class="faq-container">
+
+        <details>
+            <summary>¿Qué es PABS?</summary>
+
+            <p>
+                PABS es un programa de apoyo de beneficio
+                social enfocado en previsión y protección.
+            </p>
+        </details>
+
+        <details>
+            <summary>
+                ¿Puedo resolver mis dudas antes de afiliarme?
+            </summary>
+
+            <p>
+                Sí. El asesor virtual está diseñado para
+                orientarte antes y durante el proceso.
+            </p>
+        </details>
+
+        <details>
+            <summary>
+                ¿Qué aportación corresponde a cada frecuencia?
+            </summary>
+
+            <p>
+                Semanal: $150 MXN.<br>
+                Quincenal: $300 MXN.<br>
+                Mensual: $600 MXN.
+            </p>
+        </details>
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <div class="footer-brand">
+
+        <strong>PABS</strong>
+
+        <span>
+            Programa de Apoyo de Beneficio Social
+        </span>
+
+    </div>
+
+    <div class="footer-contact">
+
+        <strong>Asesor Ejecutivo Comercial</strong>
+
+        <span>Sergio Estrada</span>
+
+        <span>WhatsApp: 664 160 1608</span>
+
+    </div>
+
+    <div class="footer-copy">
+        © 2026 PABS. Información sujeta a términos
+        y condiciones aplicables.
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     ASISTENTE VIRTUAL
+========================= -->
+
+<div id="assistant" class="assistant">
+
+    <div class="assistant-window">
+
+        <div class="assistant-header">
+
+            <div>
+                <strong>Asesor Virtual PABS</strong>
+
+                <span>
+                    ● Disponible
+                </span>
+            </div>
+
+            <button onclick="closeAssistant()">×</button>
+
+        </div>
+
+
+        <div id="chat" class="chat"></div>
+
+
+        <div class="assistant-input">
+
+            <input
+                id="userMessage"
+                type="text"
+                autocomplete="off"
+                placeholder="Escribe tu respuesta..."
+                onkeydown="handleEnter(event)"
+            >
+
+            <button onclick="sendMessage()">➤</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+    id="assistantButton"
+    class="assistant-button"
+    onclick="openAssistant()">
+
+    <span>✦</span>
+
+    <small>
+        ¿Quieres afiliarte?
+    </small>
+
+</button>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
